@@ -14,6 +14,12 @@ module ProductsViews
       puts "Tax:   #{product.tax} "
       puts "============================="
       puts "Total: #{product.total}"
+      puts
+      puts "Images: "
+      product.image_url.each do |image_url|
+        puts "     •#{product.image_url}"
+      end 
+      puts
 
   end  
 
@@ -42,11 +48,11 @@ module ProductsViews
       print "Price: "
       client_params[:price] = gets.chomp 
       
-      print "Image_url: "
-      client_params[:image_url] = gets.chomp
-      
       print "Description: "
       client_params[:description] = gets.chomp
+
+      print "Supplier Id: "
+      client_params[:supplier_id] = gets.chomp 
       
       client_params
   end 
@@ -56,18 +62,15 @@ module ProductsViews
       
       print "Name (#{product.name}): "
       client_params[:name] = gets.chomp
-
-      print "In Stock? (#{product.in_stock?}): "
-      client_params[:in_stock?] = gets.chomp 
       
       print "Price (#{product.price}): "
       client_params[:price] = gets.chomp 
       
-      print "Image_url (#{product.image_url}): "
-      client_params[:image_url] = gets.chomp
-      
       print "Description (#{product.description}): "
       client_params[:description] = gets.chomp
+
+      print "Supplier Id: (#{product.supplier_id})"
+      client_params[:supplier_id] = gets.chomp 
       
       client_params.delete_if{ |key, value| value.empty?}
       client_params
@@ -79,6 +82,17 @@ module ProductsViews
     end
   end 
 
+  def orders_new_form
 
+    client_params = {}
+      
+      print "Product Id: "
+      client_params[:product_id] = gets.chomp
+
+      print "How many?: "
+      client_params[:quantity] = gets.chomp 
+      
+      client_params
+  end 
 
 end 
