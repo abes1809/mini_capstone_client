@@ -15,9 +15,10 @@ module ProductsController
 
     products_show_view(product)
 
-    puts "press enter to continue or type 'o' to order"
+    puts "press enter to continue or type 'add' to add to cart"
     user_choice = gets.chomp 
-    if user_choice == "o"
+    if user_choice == "add"
+
       print "Enter a quantity to order: "
       input_quantity = gets.chomp 
       client_params = {
@@ -26,7 +27,7 @@ module ProductsController
                         }
       json_data = post_request("/orders", client_params)
 
-      response = Unirest.post("http://localhost:3000/orders," parameters: client_params)
+      response = Unirest.post("http://localhost:3000/carted_products", parameters: client_params)
       
       if response.code == 200
         puts JSON.pretty_generate(response.body)
