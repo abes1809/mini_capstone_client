@@ -27,6 +27,8 @@ class Frontend
       puts "       [4] Update a product"
       puts "       [5] Delete a product"
       puts "       [6] Show all orders"
+      puts "       [7] Show shopping cart"
+
       puts
       puts "       [signup] Songup (create user)"
       puts "       [login] Login (create a JSON web token)"
@@ -99,7 +101,55 @@ class Frontend
           puts "You need to sign in to make a order"
         end 
         puts JSON.pretty_generate(order_hashs)
+
+      elsif input_option == "7"
+        puts 
+        puts "Here are all the items currently in your cart: "
+        puts 
+        response = Unirest.get("http://localhost:3000/carted_products")
+        carted_products = response.body
+
+        # carted_products.each do |carted_product_hash|
+        #   puts "- #{carted_product_hash}["product"]["name"]"
           
+        puts JSON.pretty_generate(carted_products)
+        puts 
+
+        # if response.code == 200
+        #   puts JSON.pretty_generate(carted_products)
+        # else
+        #   puts "You need to sign in to view your cart"
+        # end 
+
+        print "Type 'purchase' to check out, 'remove' to remove an item from your cart, or enter to continue"
+        puts 
+
+        input_option = gets.chomp 
+
+        if input_option == "purchase"
+
+          response = Unirest.post("http://localhost:3000/orders")
+          order_hash = response.body
+
+          if response.code == 200
+            puts JSON.pretty_generate(order_hash)
+          else 
+            puts "You need to sign in to make a order"
+          end 
+
+        elsif input_option == "remove"
+
+          print "Enter the product ID you want to remove: "
+          input_id = gets.chomp 
+
+          response = Unirest.delete("http://localhost:3000/carted_products/#{input_id}")
+          if response.code == 200
+            puts JSON.pretty_generate(response.body)
+          else 
+            puts "You need to sign in to make a order"
+          end   
+        end
+
       elsif input_option == "signup"
         puts "Signup for a new account"
         puts 

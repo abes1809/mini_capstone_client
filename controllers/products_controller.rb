@@ -18,14 +18,13 @@ module ProductsController
     puts "press enter to continue or type 'add' to add to cart"
     user_choice = gets.chomp 
     if user_choice == "add"
-
       print "Enter a quantity to order: "
       input_quantity = gets.chomp 
       client_params = {
                         quantity: input_quantity,
                         product_id: input_id 
                         }
-      json_data = post_request("/orders", client_params)
+      # json_data = post_request("/orders", client_params)
 
       response = Unirest.post("http://localhost:3000/carted_products", parameters: client_params)
       
@@ -34,7 +33,6 @@ module ProductsController
       elsif response.code == 401 
         puts "Nope, try logging in first"
       end
-
     end 
   end
 
